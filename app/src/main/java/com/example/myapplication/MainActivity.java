@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                              if (response.isSuccessful()) {
                                  mFlowers.addAll(response.body());
                                  mRecyclerView.getAdapter().notifyDataSetChanged();
+
                                  mProgressBar.setVisibility(View.INVISIBLE);
                              } else {
                                  ResponseBody errorBody = response.errorBody();

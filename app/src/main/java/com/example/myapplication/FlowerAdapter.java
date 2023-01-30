@@ -1,13 +1,18 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,9 +33,14 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Flower post = posts.get(position);
+        Picasso.with(holder.itemView.getContext())
+                .load("http://services.hanselandpetal.com/feeds/flowers.json")
+                .error(R.drawable.ic_launcher_foreground)
+                .into(holder.postImageView);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            holder.postTextView.setText(Html.fromHtml(post.getName(), Html
-                    .FROM_HTML_MODE_LEGACY));
+            holder.postTextView.setText(Html.fromHtml(post.getName(), Html.FROM_HTML_MODE_LEGACY));
+
         } else {
             holder.postTextView.setText(Html.fromHtml(post.getName()));
         }
@@ -45,9 +55,11 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView postTextView;
+        ImageView postImageView;
 
         ViewHolder(View itemView) {
             super(itemView);
+            postImageView = itemView.findViewById(R.id.imageView_item_post);
             postTextView =  itemView.findViewById(R.id.textView_item_post);
         }
     }
