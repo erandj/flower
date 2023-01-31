@@ -18,6 +18,7 @@ import java.util.List;
 
 public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder> {
     private List<Flower> posts;
+    private Context context;
 
     FlowerAdapter(List<Flower> posts) {
         this.posts = posts;
@@ -25,7 +26,8 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent,
+        context = parent.getContext();
+        View v = LayoutInflater.from(context).inflate(R.layout.list_item, parent,
                 false);
         return new ViewHolder(v);
     }
@@ -33,8 +35,8 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Flower post = posts.get(position);
-        Picasso.with(holder.itemView.getContext())
-                .load("http://services.hanselandpetal.com/feeds/flowers.json")
+        Picasso.with(context)
+                .load("https://services.hanselandpetal.com/photos/" + post.getPhoto())
                 .error(R.drawable.ic_launcher_foreground)
                 .into(holder.postImageView);
 
